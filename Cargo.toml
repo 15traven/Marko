@@ -1,5 +1,6 @@
 [workspace]
 members = [
   "mk-native",
-  "mk-gui"
+  "mk-gui",
+  "mk-core"
 ]
