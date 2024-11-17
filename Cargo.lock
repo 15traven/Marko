@@ -1748,6 +1748,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "mk-core"
+version = "0.1.0"
+
+[[package]]
 name = "mk-gui"
 version = "0.1.0"
 dependencies = [

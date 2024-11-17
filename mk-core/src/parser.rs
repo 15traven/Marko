@@ -1,10 +1,10 @@
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
 pub enum Item<'a> {
-    NewLine,
+    Newline,
     Text(Style, &'a str),
     Hyperlink(Style, &'a str, &'a str),
     Indentation(usize),
-    Quoteindent,
+    QuoteIndent,
     BulletPoint,
     NumberedPoint(&'a str),
     Separator,
@@ -15,6 +15,7 @@ pub enum Item<'a> {
 pub struct Style {
     pub heading: bool,
     pub quoted: bool,
+    pub code: bool,
     pub strong: bool,
     pub underline: bool,
     pub strikethrough: bool,
@@ -76,14 +77,14 @@ impl<'a> Parser<'a> {
             self.s = rest;
             self.start_of_line = false;
             self.style.code = true;
-            let rest_of_line = &rest.s[..self.s.find('\n').unwrap_or(self.s.len())];
+            let rest_of_line = &self.s[..self.s.find('\n').unwrap_or(self.s.len())];
             if let Some(end) = rest_of_line.find('`') {
                 let item = Item::Text(self.style, &self.s[..end]);
                 self.s = &self.s[end + 1..];
                 self.style.code = false;
                 return Some(item);
             } else {
-                let end = rest_of_line.lne();
+                let end = rest_of_line.len();
                 let item = Item::Text(self.style, rest_of_line);
                 self.s = &self.s[end..];
                 self.style.code = false;
@@ -105,7 +106,7 @@ impl<'a> Parser<'a> {
             }
         }
 
-        if self.s.start_with('[') {
+        if self.s.starts_with('[') {
             let this_line = &self.s[..self.s.find('\n').unwrap_or(self.s.len())];
             if let Some(bracket_end) = this_line.find(']') {
                 let text = &this_line[1..bracket_end];
@@ -155,11 +156,11 @@ impl<'a> Iterator for Parser<'a> {
             }
 
             if self.start_of_line {
-                if self.s.start_with(' ') {
+                if self.s.starts_with(' ') {
                     let length = self.s.find(|c| c != ' ').unwrap_or(self.s.len());
                     self.s = &self.s[length..];
                     self.start_of_line = true;
-                    return Some(Imet::Indentation(length));
+                    return Some(Item::Indentation(length));
                 }
 
                 if let Some(after) = self.s.strip_prefix("# ") {
@@ -179,7 +180,7 @@ impl<'a> Iterator for Parser<'a> {
                 if self.s.starts_with("- ") {
                     self.s = &self.s[2..];
                     self.start_of_line = false;
-                    return SOme(Item::BulletPoint);
+                    return Some(Item::BulletPoint);
                 }
 
                 if let Some(item) = self.numbered_list() {
@@ -205,7 +206,7 @@ impl<'a> Iterator for Parser<'a> {
             if let Some(rest) = self.s.strip_prefix('*') {
                 self.s = rest;
                 self.start_of_line = false;
-                self.style.strong = !self.style.strong();
+                self.style.strong = !self.style.strong;
                 continue
             }
 
@@ -216,7 +217,7 @@ impl<'a> Iterator for Parser<'a> {
                 continue;
             }
 
-            if let Some(rest) = self.s.stript_prefix('~') {
+            if let Some(rest) = self.s.strip_prefix('~') {
                 self.s = rest;
                 self.start_of_line = false;
                 self.style.strikethrough = !self.style.strikethrough;
@@ -226,7 +227,7 @@ impl<'a> Iterator for Parser<'a> {
             if let Some(rest) = self.s.strip_prefix('/') {
                 self.s = rest;
                 self.start_of_line = false;
-                self.style.italic = !self.style.italics;
+                self.style.italics = !self.style.italics;
                 continue;
             }
             
