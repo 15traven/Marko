@@ -1,0 +1,7 @@
+[package]
+name = "marko"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+mk-gui = { path = "../mk-gui" }
