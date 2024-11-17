@@ -1750,6 +1750,9 @@ dependencies = [
 [[package]]
 name = "mk-core"
 version = "0.1.0"
+dependencies = [
+ "mk-gui",
+]
 
 [[package]]
 name = "mk-gui"
