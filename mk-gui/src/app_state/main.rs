@@ -1,4 +1,4 @@
-use eframe::egui::{
+use mk_core::eframe::egui::{
     self, Response, Context, Ui,
 };
 use super::{UIAction, UIStateVariant};

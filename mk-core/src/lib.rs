@@ -1,2 +1,5 @@
 pub mod parser;
-pub mod highlighter;
+mod highlighter;
+
+pub use highlighter::Highlighter;
+pub use eframe;

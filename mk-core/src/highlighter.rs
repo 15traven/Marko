@@ -1,4 +1,4 @@
-use mk_gui::eframe::egui::{self};
+use eframe::egui::{self};
 use super::parser;
 
 #[derive(Default)]

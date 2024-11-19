@@ -1,4 +1,4 @@
-pub use eframe::egui::{self};
+pub use mk_core::eframe::egui::{self};
 
 mod main;
 

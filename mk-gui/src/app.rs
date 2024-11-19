@@ -1,4 +1,4 @@
-use eframe::{
+use mk_core::eframe::{
     self, App, Frame,
     egui::{ Context }
 };
