@@ -5,7 +5,7 @@ use mk_core::eframe::egui::{
 use mk_core::Highlighter;
 
 pub struct Editor {
-    code: String,
+    pub code: String,
     highlighter: Highlighter
 }
 

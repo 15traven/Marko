@@ -41,11 +41,22 @@ impl MainUI {
                 ScrollArea::vertical()
                     .id_salt("source")
                     .show(&mut columns[0], |ui| self.editor.ui(ui));
+                ScrollArea::vertical()
+                    .id_salt("rendered")
+                    .show(&mut columns[1], |ui| {
+                        crate::widgets::viewer::mark(ui, &self.editor.code);
+                    })
             });
         } else if self.show_source { 
             ScrollArea::vertical()
                 .id_salt("source")
                 .show(ui, |ui| self.editor.ui(ui));
+        } else if self.show_rendered {
+            ScrollArea::vertical()
+                .id_salt("rendered")
+                .show(ui, |ui| {
+                    crate::widgets::viewer::mark(ui, &self.editor.code);
+                });
         }
     }
 }
