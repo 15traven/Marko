@@ -232,7 +232,7 @@ impl<'a> Iterator for Parser<'a> {
                 continue;
             }
 
-            if let Some(rest) = self.s.strip_prefix('/') {
+            if let Some(rest) = self.s.strip_prefix('*') {
                 self.s = rest;
                 self.start_of_line = false;
                 self.style.italics = !self.style.italics;
