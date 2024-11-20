@@ -215,14 +215,14 @@ fn todo(ui: &mut Ui, done: bool, indent: f32) -> Response {
     if done {
         ui.painter().rect(
             rect,
-            Rounding::same(2.0),
+            Rounding::same(1.0),
             ui.visuals().text_color(),
-            Stroke::default()
+            Stroke::new(1.0, ui.visuals().text_color())
         );
     } else {
         ui.painter().rect_stroke(
             rect,
-            Rounding::same(2.0),
+            Rounding::same(1.0),
             Stroke::new(1.0, ui.visuals().text_color())
         );
     }
