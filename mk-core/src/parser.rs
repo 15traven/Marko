@@ -8,7 +8,8 @@ pub enum Item<'a> {
     BulletPoint,
     NumberedPoint(&'a str),
     Separator,
-    CodeBlock(&'a str, &'a str)
+    CodeBlock(&'a str, &'a str),
+    Todo(bool)
 }
 
 #[derive(Copy, Clone, Debug, Default, Eq, PartialEq)]
@@ -119,6 +120,25 @@ impl<'a> Parser<'a> {
                         self.start_of_line = false;
                         return Some(Item::Hyperlink(self.style, text, url));
                     }
+                }
+            }
+        }
+
+        None
+    }
+
+    fn todo(&mut self) -> Option<Item<'a>> {
+        if self.s.starts_with('[') {
+            let this_line = &self.s[..self.s.find('\n').unwrap_or(self.s.len())];
+            if let Some(bracket_end) = this_line.find(']') {
+                let done = &this_line[1..bracket_end];
+                self.s = &self.s[bracket_end + 1..];
+                self.start_of_line = false;
+                if done == " " {
+                    return Some(Item::Todo(false));
+                }
+                if done == "x" {
+                    return Some(Item::Todo(true))
                 }
             }
         }
@@ -254,6 +274,10 @@ impl<'a> Iterator for Parser<'a> {
             }
 
             if let Some(item) = self.url() {
+                return Some(item);
+            }
+
+            if let Some(item) = self.todo() {
                 return Some(item);
             }
 

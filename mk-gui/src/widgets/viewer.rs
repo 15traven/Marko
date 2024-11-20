@@ -3,7 +3,7 @@ use mk_core::eframe::egui::{
     vec2, Align, Align2, Layout,
     Hyperlink, Response, Sense,
     RichText, Separator, Shape,
-    TextStyle, Ui
+    TextStyle, Rounding, Stroke, Ui
 };
 
 pub fn mark(ui: &mut Ui, mark: &str) {
@@ -110,6 +110,12 @@ pub fn item_ui(ui: &mut Ui, item: parser::Item<'_>) {
                 Shape::rect_filled(rect, 1.0, code_bg_color)
             );
         }
+
+        parser::Item::Todo(done) => {
+            ui.allocate_exact_size(vec2(one_indent, row_height), Sense::hover());
+            todo(ui, done, one_indent);
+            ui.allocate_exact_size(vec2(one_indent, row_height), Sense::hover());
+        }
     }
 }
 
@@ -195,6 +201,31 @@ fn numbered_point(ui: &mut Ui, width: f32, number: &str) -> Response {
         font_id,
         text_color
     );
+
+    response
+}
+
+fn todo(ui: &mut Ui, done: bool, indent: f32) -> Response {
+    let row_height = ui.text_style_height(&TextStyle::Body);
+    let (rect, response) = ui.allocate_exact_size(
+        vec2(14.0, row_height), 
+        Sense::hover()
+    );
+
+    if done {
+        ui.painter().rect(
+            rect,
+            Rounding::same(2.0),
+            ui.visuals().text_color(),
+            Stroke::default()
+        );
+    } else {
+        ui.painter().rect_stroke(
+            rect,
+            Rounding::same(2.0),
+            Stroke::new(1.0, ui.visuals().text_color())
+        );
+    }
 
     response
 }
