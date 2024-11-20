@@ -185,7 +185,7 @@ impl<'a> Iterator for Parser<'a> {
                     return Some(Item::QuoteIndent);
                 }
 
-                if self.s.starts_with("- ") {
+                if self.s.starts_with("- ") || self.s.starts_with("* ") {
                     self.s = &self.s[2..];
                     self.start_of_line = false;
                     return Some(Item::BulletPoint);
