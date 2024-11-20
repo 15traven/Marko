@@ -61,7 +61,8 @@ impl<'a> Parser<'a> {
                 let language = &language_start[..newline];
                 let code_start = &language_start[newline + 1..];
                 if let Some(end) = code_start.find("\n```") {
-                    let code = &code_start[end + 4..];
+                    let code = &code_start[..end].trim();
+                    self.s = &code_start[end + 4..];
                     self.start_of_line = false;
                     return Some(Item::CodeBlock(language, code));
                 } else {
