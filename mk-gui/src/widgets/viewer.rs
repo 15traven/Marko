@@ -116,6 +116,7 @@ pub fn item_ui(ui: &mut Ui, item: parser::Item<'_>) {
 fn rich_text_from_style(text: &str, style: parser::Style) -> RichText {
     let parser::Style {
         heading,
+        subheading,
         quoted,
         code,
         strong,
@@ -129,7 +130,10 @@ fn rich_text_from_style(text: &str, style: parser::Style) -> RichText {
 
     let mut rich_text = RichText::new(text);
     if heading && !small {
-        rich_text = rich_text.heading().strong();
+        rich_text = rich_text.heading().strong().size(20.0);
+    }
+    if subheading && !small {
+        rich_text = rich_text.heading().strong().size(14.0);
     }
     if small && !heading {
         rich_text = rich_text.small();

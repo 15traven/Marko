@@ -74,6 +74,9 @@ pub fn highlight_mark(
         } else if start_of_line && text.starts_with("# ") {
             style.heading = true;
             skip = 2;
+        } else if start_of_line && text.starts_with("## ") {
+            style.subheading = true;
+            skip = 3;
         } else if start_of_line && text.starts_with("> ") {
             style.quoted = true;
             skip = 2;
@@ -155,7 +158,7 @@ fn format_from_style(
 ) -> egui::text::TextFormat {
     use egui::{Align, Color32, Stroke, TextStyle};
 
-    let color = if mark_style.strong || mark_style.heading {
+    let color = if mark_style.strong || mark_style.heading || mark_style.subheading {
         egui_style.visuals.strong_text_color()
     } else if mark_style.quoted {
         egui_style.visuals.weak_text_color()
