@@ -216,7 +216,7 @@ impl<'a> Iterator for Parser<'a> {
                 }
 
                 if let Some(after) = self.s.strip_prefix("---").or_else(|| self.s.strip_prefix("===")) {
-                    self.s = after.trim_start_matches('-');
+                    self.s = after.trim_start_matches(['-', '=']);
                     self.s = self.s.strip_prefix('\n').unwrap_or(self.s);
                     self.start_of_line = false;
                     return Some(Item::Separator);
