@@ -211,7 +211,7 @@ impl<'a> Iterator for Parser<'a> {
                 return Some(item);
             }
 
-            if let Some(rest) = self.s.strip_prefix('*') {
+            if let Some(rest) = self.s.strip_prefix("**") {
                 self.s = rest;
                 self.start_of_line = false;
                 self.style.strong = !self.style.strong;
