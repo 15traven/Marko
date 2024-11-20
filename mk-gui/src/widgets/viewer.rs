@@ -130,7 +130,7 @@ fn rich_text_from_style(text: &str, style: parser::Style) -> RichText {
 
     let mut rich_text = RichText::new(text);
     if heading && !small {
-        rich_text = rich_text.heading().strong().size(20.0);
+        rich_text = rich_text.heading().strong();
     }
     if subheading && !small {
         rich_text = rich_text.heading().strong().size(14.0);
