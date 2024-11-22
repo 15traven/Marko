@@ -166,9 +166,7 @@ fn format_from_style(
         egui_style.visuals.text_color()
     };
 
-    let text_style = if mark_style.heading {
-        TextStyle::Heading
-    } else if mark_style.code {
+    let text_style = if mark_style.code {
         TextStyle::Monospace
     } else if mark_style.small | mark_style.raised {
         TextStyle::Small
